@@ -1,0 +1,324 @@
+ %%%------------------------------------------------------------------
+%%% Filename:    handout.tex
+%%% Author:      Conrad Kostecki, Oluf Lorenzen
+%%% Created:     30.03.2008
+
+%%%------------------------------------------------------------------
+%%% TODO:
+%%% - \input{../asdf/} anstelle von \input ../asdf/
+
+\documentclass[a4paper,14pt,halfparskip,headsepline]{scrreprt}
+%,twocolumn
+\usepackage[ngerman]{babel}     % deutsche Trennmuster
+\usepackage[latin1]{inputenc}     % direkte Eingabe von Umlauten & Co.
+\usepackage{ae,aecompl}         % new fontpkgs
+\usepackage{pslatex}            % fonts4pdfoutput
+%%% Times/Helvetica/Courier *nur* um die Dateigrï¿½e zu minimieren, da
+%%% diese Schriften nicht eingebunden werden (mssen).
+\usepackage{courier}            % Courier \ttdefault
+%------------ zusaetzliche Pakete (Graphik, Tabellen) ---------------
+\usepackage{textcomp}           % Zusaezliche Zeichen
+%\usepackage{enumerate}
+\usepackage{calc}               % Wir mssen rechnen
+%--------------------------- Formatierung ---------------------------
+%%% Captions
+\setkomafont{caption}{\normalcolor\small\sffamily\slshape}
+\setkomafont{captionlabel}{\normalcolor\upshape\small\sffamily\bfseries}
+
+%--------------------------- PDF Optionen ---------------------------
+\ifpdfoutput{%                 % Benoetigt KOMA-Scriptklasse
+  \usepackage{hyperref}        % hyperref Einstellungen fr pdf
+  \hypersetup{%
+  pdfauthor={Conrad Kostecki, Oluf Lorenzen},%
+  pdftitle={Magnetische Speichermedien (und deren Ausfallsicherheit)},%
+  pdfsubject={Handout zum Referat},%
+  bookmarksopen=true,% Temp
+  backref=true,
+  linkbordercolor=1 1 1,
+  }
+}%
+
+%\makeatother
+
+\usepackage[pdftex]{graphicx}
+\usepackage{graphics}
+\usepackage{makeidx}
+\usepackage{mathpazo}
+\usepackage{multicol}
+
+%\usepackage{srcltx}
+%\usepackage{color}
+\usepackage[pdftex]{graphicx}
+\usepackage{wrapfig}
+
+%opening
+\title{Magnetische Speichermedien\\(und deren Ausfallsicherheit)}
+\author{Conrad Kostecki, Oluf Lorenzen}
+
+
+\begin{document}
+
+\maketitle
+
+
+\begin{abstract}
+
+%%% Copyright 
+{\setlength{\parindent}{0pt}
+  \footnotesize
+\vfill
+Copyright \copyright{} 2008 Conrad Kostecki, Oluf Lorenzen.
+%\medskip
+\bigskip
+\\ "THE BEER-WARE LICENSE" (Revision 42):\\
+ <phk@FreeBSD.ORG> wrote this license.\\
+ As long as you retain this notice you\\
+ can do whatever you want with this stuff. If we meet some day, and you think\\
+ this stuff is worth it, you can buy us a beer in return
+%   
+%\bigskip
+ % weiteres bla
+ }
+\end{abstract}
+
+%Bilder:
+%	\begin{figure*} \end{figure*}  um über beide reihen zu gehen\}
+
+
+\tableofcontents
+
+
+\chapter{Geschichtsüberblick}
+\begin{quotation}
+  \begin{itemize}
+  \item September 1956: IBM stellt das erste magnetische Festplattenlaufwerk mit der Bezeichnung "`IBM 350"' vor (5 MB, 24 Zoll, 600 ms Zugriffszeit, 1200 rpm, 500 kg, 10 kW). Die Schreib-/Leseköpfe wurden elektronisch-pneumatisch gesteuert, weshalb die schrankgroße Einheit auch einen Druckluft-Kompressor enthielt. Das Laufwerk wurde nicht verkauft, sondern für ca. 10.000 DM pro Monat an Unternehmen vermietet. Ein Exemplar der IBM350 befindet sich im Museum des IBM-Clubs in Sindelfingen.
+\item 1973: IBM startet das "`Winchester"'-Projekt, das sich damit befasste, einen rotierenden Speicher mit einem fest montierten Medium zu entwickeln (IBM 3340, 30 MB Speicherkapazität, 30 ms Zugriffszeit). Beim Starten und Stoppen des Mediums sollten die Köpfe auf dem Medium aufliegen, was einen Lademechanismus überflüssig machte. Namensgeber war das Winchester-Gewehr 3030. Diese Technik setzte sich in den folgenden Jahren durch. Bis in die 1990er Jahre war deshalb für Festplatten die Bezeichnung Winchester-Laufwerk gebräuchlich.
+\item 1979: Vorstellung der ersten 8"'-Winchester-Laufwerke. Diese waren jedoch sehr schwer und teuer (ca. 1000 Euro/MB).
+\item 1980: Verkauf der ersten 5-1/4"'-Winchester-Laufwerke durch die Firma Seagate Technology (?ST506?, 6 MB, 3600 rpm, Verkaufspreis ca. 1000 \$). Diese Modellbezeichnung (ST506) wurde auch über viele Jahre hinaus der Name für diese neue angewendete Schnittstelle, welche alle anderen Firmen als neuen Standard im PC-Bereich übernommen hatten. Zur gleichen Zeit kam neben den bereits bestehenden Apple-Micro-computern der erste PC von IBM auf den Markt, dadurch stieg die Nachfrage nach diesen - im Vergleich zu den Winchester-Laufwerken kompakten - Festplatten rasant an.
+\item 1997: Erster Einsatz des Riesen-Magnetowiderstands (englisch "`Giant Magnetoresistive Effect"' (GMR)) bei Festplatten, dadurch konnte die Speicherkapazität stark gesteigert werden. Eine der ersten Festplatten mit GMR-Leseköpfen brachte IBM im November 1997 heraus (IBM Deskstar 16GP DTTA-351680, 3,5"', 16,8 GB, 0,93 kg, 9,5 ms, 5400 rpm).
+\item 2005: Prototyp einer 2,5-Zoll-Hybrid-Festplatte (Kurzbezeichnung H-HDD), die aus einem magnetisch-mechanischen Teil und einem zusätzlichen NAND-Flash-Speicher aufgebaut ist, der als Puffer für die Daten dient. Erst wenn der Puffer voll ist, werden die Daten aus dem Puffer auf das Magnetmedium der Festplatte geschrieben.
+\item 2006: Erste 2,5-Zoll Notebook-Festplatte ("`Momentus 5400.3"', 2,5"', 160 GB, 0,1 kg, 5,6 ms, 5400 rpm, 2 Watt) von Seagate mit senkrechter Aufzeichnungstechnik (Perpendicular Recording). 3,5-Zoll-Festplatten erreichen mit derselben Aufzeichnungstechnik im April eine Kapazität von 750 GB.
+\item 2007: Die erste Terabyte-Festplatte von Hitachi. (3,5"', 1 TB, 0,7 kg, 8,5 ms, 7200 rpm, 11 Watt)
+  \end{itemize}
+  
+\end{quotation}
+\textbf{Zitat:} \textit{http://de.wikipedia.org/wiki/Festplatte\#Chronologische\_.C3.9Cbersicht}
+\newpage
+
+\chapter{Formfaktoren}
+\begin{quotation}
+  \begin{itemize}
+  \item 24"'-Baugröße hatte die erste Festplatte, IBM 350 von 1956.
+  \item 8"'-Baugrößen kamen Mitte der 1970er Jahre auf. Sie wurden jedoch recht schnell abgelöst von den wesentlich \textit{handlicheren} und vor allem leichteren 5,25"'-Festplatten.
+  \item 5,25"'-Baugrößen wurden 1980 von Seagate eingeführt, jedoch ist diese Gattung seit 1997 ausgestorben. Einige SCSI-Server-Platten sowie die LowCost-ATA-Platte BigFoot von Quantum waren die letzten Vertreter dieser Spezies. Man unterscheidet Geräte mit voller Bauhöhe (3,5"' bzw. ca. 88 mm), die zwei Steckplätze belegen, und halber Bauhöhe (1,75"' bzw. ca. 44 mm). Andere Höhen gibt es auch, die bereits erwähnte BigFoot beispielsweise hat in der 4-GB-Version eine Bauhöhe von nur 0,75"' (etwa 19 mm). Die Breite beträgt 146 mm, die Tiefe ist variabel und sollte nicht wesentlich oberhalb von 200 mm liegen.
+  \item 3,5"'-Baugrößen wurden ca. 1990 eingeführt und sind derzeit (2007) Standard in Desktop-Computern und Servern. Die meisten Platten haben halbe Bauhöhe (1"' bzw. ca. 25 mm). Im Serverbereich gibt es auch Platten bis 1,8"' Höhe (1,8"' bzw. ca. 44 mm). Die Breite beträgt 100 mm, die Tiefe ist variabel und sollte nicht wesentlich oberhalb von 150 mm liegen.
+  \item 2,5"'-Baugrößen finden Verwendung in Notebooks oder Spezialrechnern. Die traditionelle Bauhöhe war 0,5"' (12,7 mm), mittlerweile gibt es mit 0,375"' (9,5 mm) und 0,25"' (6,35 mm) flachere Festplatten - und auch Notebooks, die diese flachen Varianten benötigen. Die Breite beträgt 68 mm, die Tiefe 100 mm. Der Anschluss ist gegenüber den größeren Bauformen modifiziert, bei ATA wird z. B. ein 44-poliger Anschluss verwendet, der gleichzeitig die Betriebsspannung von +5 Volt zuführt (Pin 1 ist meist auf der Seite der Jumper). Im Gegensatz zu den größeren Platten kommen diese Platten auch ohne 12-Volt-Betriebsspannung (zusätzlich zu der 5-Volt-Spannung) aus. Seit 2006 bietet Seagate und im Weiteren auch andere Hersteller zudem auch 2,5"'-Festplatten für den Einsatz in Servern an, die weniger Strom verbrauchen, Platz sparen und die Ausfallsicherheit erhöhen sollen. Weitere Hersteller sind Toshiba, IBM, Hitachi und Fujitsu.
+  \item 1,8"'-Baugrößen werden seit 2003 bei Sub-Notebooks sowie diversen Industrieanwendungen verwendet. Ebenso in großen MP3-Playern. Hitachi kündigte Ende 2007 an, keine 1,8"'-Festplatten mehr herzustellen, da Flash-Speicher diese Baugröße verdränge.
+  \item 1"'-Baugrößen sind seit 1999 unter dem Name MicroDrives im Einsatz. Die meisten MicroDrives wurden bis Mitte 2004 als "`verkleidete"' CompactFlash-Typ-II-Speichereinheiten für Digitalkameras eingesetzt. Im Laufe des Jahres 2007 wurden MicroDrives nahezu vollständig durch günstigeren Flash-Speicher verdrängt, der darüber hinaus auch wesentlich robuster, schneller, leichter, leiser, energiesparender ist und eine Datendichte bis zu 104 GB/cm (microSD) erreicht.
+  \item 0,85"'-Baugrößen waren ab Januar 2005 nur in begrenzten Mengen über die Firma Toshiba verfügbar, welche diese Baugröße im März 2004 mit einer Kapazität von 4 GB (3,73 GiB) zum ersten Mal vorgestellt hat. Sie wurde durch Flash-Speicher wie zum Beispiel der SD Memory Card verdrängt, die bereits ab Januar 2007 mit 8 GB erhältlich waren.
+ \end{itemize}
+\end{quotation}
+ \textbf{Zitat:} \textit{http://de.wikipedia.org/wiki/Festplatte\#Baugr.C3.B6.C3.9Fen}
+
+
+
+%\newpage
+\chapter{Mechanischer Aufbau}
+Festplatten bestehen im Großen und Ganzen aus drei Teilen:
+  \begin{itemize}
+   \item Spindel (Speichermedium)
+   \item Actuator ( I/O )
+   \item Elektronik (Steuerung, Interface)
+  \end{itemize}
+  
+  \section{Spindel}
+  Die Spindeln einer Festplatte sind heutzutage aus einer speziellen Aluminium-Legierung welche mit einer dünnen Eisenoxid- oder Kobaltschicht überzogen wird.
+  Die Alu-Ligierung wurde gewählt, da ein Material benötigt wurde, dass unter gewissen Temperaturen (30-60°C) und starker Geschwindigkeit / Beschleunigung formstabil bleibt. Zeitweise wurde auch Glas verwendet, welches sich aber vermutlich nicht als Schock-Resistent genug für den breiten Einsatz herausstellte.
+  
+  \subsection{Logischer Aufbau der Spindeln}
+  In den meisten Festplatten befinden sich mehrere Spindeln, auf diesen Spindeloberflächen wird vom Lesekopf in tausenden zylindrischen Kreisen geschrieben. Alle identischen "`Kreise"' aller Spindeln einer Festplatte nennt man Zylinder. Jeder Kreis, jede Spur ist in kleine logische Einheiten unterteilt - Sektoren.
+  Ein Sektor enthält im Normalfall 512Byte an Informationen und die dazughörgen Prüfsummen über die die Konsistenz der Daten gewährleistet wird.
+  
+  \section{Lese-/Schreibeinheit}
+  Mit 10-20 nm Abstand schiebt sich der Lese-/Schreibkopfkopf über die magnetische Schicht; dieser Abstand wird nur durch die Reibung der Spindeln an dem umliegenden Gas erreicht. Um den Abstand zwischen dem Lesekopf und den magnetischen Schichten zu gewährleisten wurden verscheidene Techniken entwickelt. Am einfachsten ist das \textit{parken} der Köpfe in einer speziellen Bucht in der Mitte der Spindeln oder außerhalb. In dieser "`Landezone"' sind die Leseköpfe weitestgehend imun gegen hohe gegen-/beschleunigungen. Bei älteren Festplatten musste dieser Vorgang explizit vom OS angefordert werden; heute passiert dies in den meisten Fällen automatisch durch den Gerätetreiber beim herunterfahren des OS.
+  Kombinierbar ist diese Technik noch mit einem Bescheleunigungssensor welcher üblicher Weise in Notebook-Festplatten verbaut wird. Stellt dieser Sensor eine erhöhte Beschleunigung fest, werden die Leseköpfe in die Landezone gefahren und dort fixiert.
+  
+  \section{Elektronik}
+  Zu den Aufgaben der Elektronik einer Festplatte gehört die Kommunikation mit dem Gerätetreiber des Betriebssystems, die Bewegung der Schreib-/Leseeinheit, eine gewisse Zwischenspeicherung von Daten und die Aufzeichnung von S.M.A.R.T Ereignissen.
+  Sollte die Elektronik beispielsweise durch mechanische Einwirkung defekt sein, kann man Sie mit ein wenig Glück mit einem Baugleichen Modell tauschen und auf diesem Weg die Daten retten.
+
+\chapter{Ausfallfaktoren}
+Ein Ausfall kann durch diverse Faktoren ausgelöst worden sein. Heutzutage - mit immer schneller rotierenden Teilen - tritt das thermische Problem in den Vordergrund. Festplatten laufen in einem bestimmten Temperaturbereich am besten. Unterhalb/Überhalb dieser Werte verändern sich die physikalischen Eigenschaften der einzelnen Teile und es tritt eine erhöhte Abnutzung auf.
+Der Thermik folgen mechanische Probleme die durch unsachgemäße Handhabung auftreten. Ein weiterer Faktor ist die Nutzung der Festplatte an sich - wenn Sie keine Lese-/Schreiboperationen ausführt verlängert sich die Lebenszeit.
+Durch Einfluss der einzlenen Faktoren ist es dann möglich, dass einzelne Blöcke \textit{kaputt gehen} und durch vorgehaltene Reserver-Blöcke ersetzt werden - dies meldet die Elektronik der Festplatte und "`ersetzt"' sie automatisch. Begrenzt ist dieser Vorgang auf die Menge an Ersatz-Blöcken; wenn diese \textit{aufgebraucht} sind tritt Datenverlust auf, da nicht mehr korrekt geschrieben werden kann.
+
+\section{Dateisysteme}
+Allgemein gibt es bei den einzelnen Dateisystemen nichts besonderes zu sagen. Jedoch sind zwei Punkte zu beachten: Übliche Dateisysteme, welche ein Journalingsystem einsetzen, wie EXT3 oder NTFS können problemlos nach einem Stromausfall Dateien aus dem Journal wiederherstellen. Dagegen gibt es Probleme mit Dateisystemen, welche sehr stark den Cache nutzen; ein gutes Beispiel hierfür ist das XFS Dateisystem welches u.A. unter Linux verwendet werden kann.\\Wird ein Rechner mit XFS betrieben, sollte in jedem Fall eine USV (Unterbrechnungsfreie Stromversorgung) vorgeschaltet werden, da sonst eine sehr hohe Gefahr von Datenverlust bei einem Stromausfall besteht.
+
+\chapter{Kapazitätssteigerung}
+\begin{wrapfigure}{r}{120mm}
+ \centering
+ \resizebox{300pt}{!}{\includegraphics{gfx/z_ibm_storageevolution.jpg}}
+ \caption{fortlaufendes Wachstum der Festplattenkapazitäten}
+ \label{fig:hddsizegraph}
+\end{wrapfigure}
+
+Die Kapazitätssteigerung der Festplatten (Abb.: \ref{fig:hddsizegraph} \footnote{Bildzitat: http://www.pcguide.com/ref/hdd/z\_ibm\_storageevolution.gif (30.03.08)}) erklärt sich weitestgehend mit dem fortschreiten der allgemeinen Wissenschaft. Mit der Möglichkeit immer kleinere Vorgänge zu tätigen ist es auch möglich auf immer kleinerem Platz mehr Informationen zu speichern. Der letzte öffentliche Schritt dieser Art ist das "`Perpendicular Recording"', welches die magnetischen Momente nicht parallel zur Rotationsrichtung des Datenträgers, sondern senkrecht dazu ausrichtet. Über diesen Schritt ist eine größere Datendichte möglich.
+Eine Verkleinerung der Abstände zwischen den Spuren der bisherigen Technik ("`Longitudinal Recording"') ist aus dem Grunde nicht möglich, da bei kleineren Abständen die Stati der Bits nicht konsistent sind und so Datenverlust auftritt.
+
+
+\chapter{Anbindung der Medien}
+Im laufe der letzen Jahre gab es einige verschiedene Anschlussarten für Festplatten und andere Massenspeichergeräte. Die wichtigen sind P-ATA (ehemals IDE), S-ATA, SCSI und SAS. P-ATA und S-ATA sind primär für den Privatanwender gerichtet, während SCSI und SAS im professionellem Umfeld in Workstations und Servern wiederzufinden sind. Nicht zuletzt wegen des deutlich höhreren Preises.
+
+\section{P-ATA}
+\begin{wrapfigure}{r}{90mm}
+ \centering
+ \resizebox{200pt}{!}{\includegraphics{gfx/pata_connector_udma_host.jpg}}
+ \caption{Foto eines P-ATA Kabels}
+ \label{fig:idecable}
+\end{wrapfigure}
+\textbf{P}arallel \textbf{A}dvanced \textbf{T}echnology \textbf{A}ttachment (Abb.: \ref{fig:idecable} \footnote{Bildzitat: http://img.tomshardware.com/de/2005/11/16/das\_grosse\_thg\_stecker\_kompendium/pata\_connector\_udma\_host.jpg (30.03.08)}):\\
+Dieses war damals neben SCSI eine sehr weitverbreitete Schnittstelle. Eingesetzt wurde diese bereits in alten 286/386/486 Computern. Im laufe der Zeit wurde diese Anbindung ebenfalls mehrfach verbessert, was zu deutlichem Geschwindkeitzuwachs half. Um über P-ATA schnellere Geschwindigkeit zu erreichen, wurde das Kabel von 40 Adern auf 80 Adern aufgestockt. Die heutige Maximalgeschwindigkeit beträgt 133 MB/s.
+\subparagraph{ATA-1}
+Dies war der allererste Standard, welcher auf dem Markt verfügbar war. Merkmale sind die Ansteuerung von maximal zwei Festplatten und eine Dateitransferleistung von 8.3MB/s
+\subparagraph{ATA-2}
+Der Nachfolger von ATA-1. Die Dateitransferleistung wurde verdoppelt. Diese liegt nun bei 16.6MB/s. Zusätzlich wurden zwei neue Übertragungsarten hinzugefügt. Block Transfers und Logical Block Adressing.
+\subparagraph{ATA-3}
+Der Nacfolger von ATA-2. Hier wurden die Geschwindigkeit nicht verbessert. Es wurde nur die S.M.A.R.T. Unterstützung hinzugefügt.
+\subparagraph{ATA-4/ATAPI-4}
+Mit diesem Nachfolger wurde erstmal der CD-ROM und CD-Brenner Support als Standard eingebunden. Darum wird dieser auch ATA-4/ATAPI-4 genannt. Die Geschwindigkeit wird auf schnelle 33.3MB/s beschleunigt. Zudem gibt es auch U-DMA Unterstützung.
+\subparagraph{ATA-5/ATAPI-5}
+Durch diesen Standard wird zum ersten Mal die Geschwindigkeit auf 66.6MB/s verstärkt. Um jedoch diese erreichen zu können, werden anstatt 40-Pin neue 80-Pin Kabel benötigt. Ohne diese Kakbel ist maximal ATA-4/ATAPI-4 realisierbar.
+\subparagraph{ATA-6/ATAPI-6}
+Erneut wurde ein neuer Standard eingeführt. Diesmal sind Geschwindigkeit bis zu 100MB/s möglich. Zusätzlich wird das neue Automatic Accoustic Management (AAM) unterstüzt, womit man die Lautstärke von Festplatten untersützt. Zudem wird der 48-Bit LBA Modus eingeführt, damit Festplatten größer 128GB angesprochen werden können.
+\subparagraph{ATA-7/ATAPI-7}
+Dies ist der momentan aktuelle Standard. Ab diesem Standard wurde der "`P-ATA"'-Begriff eingeführt. Dies soll ein Gegenpunkt/Unterscheidungsmerkmal zu "`S-ATA"' darstellen. Die Geschwindigkeiten erreichen nun ein Maximum von 133MB/s.
+
+\section{SCSI}
+\textbf{S}mall \textbf{C}omputer \textbf{S}ystem \textbf{I}nterface (Abb.: \ref{fig:uscsi320} \footnote{Bildzitat: http://www.hardwarezone.com/img/data/articles/2003/819/connector.jpg (30.03.08)}:\\
+\begin{wrapfigure}{r}{90mm}
+ \centering
+ \resizebox{200pt}{!}{\includegraphics{gfx/Ultra320_connector.jpg}}
+ \caption{Foto einer HDD mit SCSI-Ultra320 Anschluss (Fujitsu MAS3735NP, 73GB, 15000 U/Min)}
+ \label{fig:uscsi320}
+\end{wrapfigure}
+Dieses war damals die Luxusschnittstelle. Der Vorteil war, dass SCSI Geräteunabhängig war und somit alle Art von Geräten genutzt werden konnte. Oft wird SCSI über Erweiterungskarten nachgerüstet und ist eher selten onboard zu finden im Gegensatz zu P-ATA. Wie auch P-ATA, hat SCSI im laufe der Jahre eine Entwicklung durchgemacht.
+\subparagraph{SCSI-1}
+Der allerste SCSI Standard. Im Gegensatz zu P-ATA konnte man damit damals bereits eine Kabellänge von sechs Metern erreichen (P-ATA maximal 90cm). Dafür war maximal eine asyncrone Geschwindigkeit von maximal 3.5MB/s und eine syncrone Geschwindigkeit von maximal 5.0MB/s erreichbar. Ingesamt etwas langsamer als der allerste P-ATA Standard.
+\subparagraph{SCSI-2}
+Dieser neue Standard brachte zwei SCSI-Versionen. Fast SCSI und Wide SCSI. Fast SCSI erreichte durch verdopplung des Bustaktes 10MB/s. Der Nachteil dafür war, dass die Kabellänge auf drei Meter begrenzt worden ist. Um die volle Kabellänge beibehalten zukönnen, wurde der Wide SCSI Standard geschaffen. Dafür mussten neue 68-Polige Kabel her. Eine Kombinierte Version aus beiden, bekannt als Fast Wide SCSI erreicht sogar bis zu 20MB/s.
+\subparagraph{Ultra-SCSI}
+Ein weiterer Standard. Damit entspricht nun die Geschwindigkeit etwa 20MB/s für die normale Version. Die Wide Variante dagegen schaffte sogar 40MB/s. Dafür bleibt jedoch die maximale Kabellänge bei nur drei Metern.
+\subparagraph{SCSI-3}
+SCSI-3 ist erstmal ein Bündel von eigenständigen Normdokumenten, das auch Protokolle für alternative Transfertechniken wie IEEE-1394 (Apples FireWire-Standard) und Fibre-Channel enthält.
+\subparagraph{Ultra-2 SCSI}
+Dieser SCSI Standard wurde mit einer neuen LVD Technik ausgestattet. Damit ist es möglich die Kabellänge auf bis zu Zwölf Metern zu erhöhen. Auch ist nun bei Standard SCSI 40MB/s möglich und bei Wide SCSI sogar 80MB/s. Dafür war dieser Standard nicht sehr lange am Leben. Er wurde recht schnell von Ultra-160 SCSI abgelöst.
+\subparagraph{Ultra-160 SCSI}
+Neu ist in diesem SCSI Standard, dass die normale SCSI Version abgeschafft wurde. Es gibt nur noch Wide SCSI. Dementsprechend sind nun bis zu 160MB/s möglich.
+\subparagraph{Ultra-320 SCSI}
+Der letzte und aktuellerste SCSI Standard. Es wurden damit maximal 320MB/s erreicht.
+
+\section{S-ATA}
+\textbf{S}erial \textbf{A}dvanced \textbf{T}echnology \textbf{A}ttachment (Abb.: \ref{fig:sassata} \footnote{Bildzitat: http://www.ecnmag.com/uploadedimages/articles/i\_chart.jpg (30.03.08)}):
+  S-ATA ist der neue Standard für Privatanwender. Da P-ATA am Ende seiner Grenzen angekommen war, wurde S-ATA geschaffen. Das ganze baut auf der SCSI LVD Technik auf. Zudem ist echtes Hot-Plug eingebaut, was das Rein -und Rausziehen von Geräten im Betrieb erlaubt.
+\subparagraph{Serial ATA 1.5 Gbit/s}
+Der allerste S-ATA Standard. Damit werden Geschwindigkeiten bis zu 150MB/s ermöglicht.  Außerdem steht echtes Hot-Plugging zur Verfügung. Eingeführt wurde dieser Standard, da technisch keine höhreren geschwindigkeiten mit parallel ATA erreicht werden. Dagegen mit Serial ATA.
+\subparagraph{Serial ATA 3.0 Gbit/s}
+Die aktuelle S-ATA Generation. Erreicht werden damit maximal 300MB/s.
+
+\begin{wrapfigure}{r}{100mm}
+ \centering
+ \resizebox{250pt}{!}{\includegraphics{gfx/sas_sata_connectors.jpg}}
+ %gfx/sas_sata_connect.jpg}}
+ \caption{Illustrationen von SAS und S-ATA Anschlüssen (li), SAS Backplane (re)}
+ \label{fig:sassata}
+\end{wrapfigure}
+
+\section{SAS}
+\textbf{S}erial \textbf{A}ttached \textbf{S}CSI (Abb.: \ref{fig:sassata} \footnote{Bildzitat: http://www.ecnmag.com/uploadedimages/articles/i\_chart.jpg (30.03.08)}):
+  SAS ist der neue Standard für Workstation und Server. Es löst das alte SCSI ab und erreicht höhrere Geschwindigkeiten. Es wird ebenfalls wie S-ATA Seriell übertragen.\\
+  Bisher ist nur die erste Generation von SAS verfügbar. Mit dieser können Daten mit bis zu 300MB/s übertragen werden. SAS-Festplatten haben jedoch zwei Ports, somit ist es durch Caching möglich die Geschwindigkeit bis zu 600MB/s zu steigern.\\
+Die zweite Generaton soll mit bis zu 600MB/s Standardmäßig funktionieren. Die dritte Generation soll die 1TB Grenze durchbrechen und damit mit 1200MB/s Daten übertragen können.
+
+
+
+\chapter{RAID}
+\textbf{R}edundant \textbf{A}rray of \textbf{I}ndependent \textbf{D}isks;\\
+  Urprünglich: Redundant Array of Inexpensive Disks
+
+
+
+  RAID-Systeme wurden dazu entwickelt, um eine höhrere Datensicherheit bei einem Festplattenausfall zu bieten. Die heutigen \textit{typischen} Systeme sind RAID0, RAID1, RAID5, RAID0+1.
+  
+\subparagraph{RAID0}
+
+\begin{wrapfigure}{r}{60mm}
+ \centering
+ \resizebox{130pt}{!}{\includegraphics{gfx/RAID_0.png}}
+ \caption{Illustration eines RAID-0 Arrays}
+ \label{fig:raid0}
+\end{wrapfigure}
+Dieses (Abb.: \ref{fig:raid0} \footnote{Bildzitat: http://de.wikipedia.org/wiki/Bild:RAID\_0.png (30.3.08)}) ist das einzige RAID-System, welches nicht auf Sicherheit, sondern auf \textit{Geschwindigkeit} optimiert worden ist. Bei diesem System wird parallel auf Festplatte A und Festplatte B geschrieben. Der Vorteil daraud resultiert in einer viel höhreren Lese -und Schreibgeschwindigkeit. Dafür ist natürlich ein großer Nachteil die Ausfallsicherheit. Sollte eine der beiden Festplatten ausfallen, sind sämtliche Daten verloren und können nicht wiederhergestellt werden. Um dieses RAID-System einsetzen zu können, sind genau zwei Festplatten von nöten. Um mehr als zwei Festplatten in einem RAID0 nutzen zu können, ist ein RAID00 nötig, welches von IBM entwickelt wurde.
+
+\newpage
+\subparagraph{RAID1}
+Dieses (Abb.: \ref{fig:raid1} \footnote{Bildzitat: http://de.wikipedia.org/wiki/Bild:RAID\_1.png (30.3.08)}) RAID-System ist auf \textit{Sicherheit} ausgelegt. Jedoch ist es nicht auf die Geschwindigkeit optimiert. Das System arbeitet, indem es parallel den selben Inhalt auf Festplatte A und Festplatte B schreibt. Damit wird gewährleistet, dass im Falle eines Festplattenausfalls keine Daten verloren gehen. Sollte die Festplatte B also ausfallen, genügt es diese einfach auszutauschen. Dannach wird diese vom RAID-Controller wieder auf den selben Stand wie Festplatte A gebracht und ist voll einsatzfähig. Da jedoch parallel auf beiden Festplatten geschrieben wird, ist zu beachten dass es deutlich langsamer ist, als eine einzelne Festplatte. Um dieses RAID-System einsetzen zu können, sind genau zwei Festplatten von nöten. Mehr als zwei Festplatten sind nicht möglich. Als bessere Alternative gibt es das RAID5-System.
+\begin{figure}[h]
+ \centering
+ \resizebox{!}{200pt}{\includegraphics{gfx/RAID_1.png}}
+ \caption{Illustration eines RAID-1 Arrays}
+ \label{fig:raid1}
+\end{figure}
+
+
+
+\newpage
+
+\subparagraph{RAID5}
+\begin{wrapfigure}{r}{75mm}
+ \centering
+ \resizebox{200pt}{!}{\includegraphics{gfx/RAID_5.png}}
+ \caption{Illustration eines RAID-5 Arrays}
+ \label{fig:raid5}
+\end{wrapfigure}
+Dieses (Abb.: \ref{fig:raid5} \footnote{Bildzitat: http://de.wikipedia.org/wiki/Bild:RAID\_5\_new.png (30.3.08)}) RAID-System kombiniert Sicherheit \textit{und} Geschwindigkeit in einem. Es ist als die bessere Variante zu RAID0 und RAID1 zu sehen. Um dieses System einsetzen zu können, sind als minimum drei Festplatten nötig. Die maximale Kapazität berechnet sich aus der Anzahl der Festplatten abzüglich einer Festplatte. Sind also 3x500GB Festplatten im RAID5-System, sind am Ende etwa 1TB nutzbarer Speicher für den Benutzer. Die restlichen 500GB werden für die sogenannten Paritätsinformationen gesichert. Durch diese Paritätsinformationen zeichnet sich das RAID5-System aus. Sollte eine Festplatte ausfallen, wird die neue eingebaute Festplatte automatisch wieder Befüllt. Sämtliche Daten werden aus diesen Paritätsinformationen wiederhergestellt. Da bei RAID5 gleichmässig die Dateien verteilt werden inklusive der Paritätsdaten, besteht eine gute Kombination zwischen Sicherheit und Geschwindigkeit.
+
+\subparagraph{RAID0+1}
+\begin{wrapfigure}{r}{80mm}
+ \centering
+ \resizebox{!}{180pt}{\includegraphics{gfx/RAID_01.png}}
+ \caption{Illustration eines RAID-0+1 Arrays}
+ \label{fig:raid0.1}
+\end{wrapfigure}
+Dieses (Abb.: \ref{fig:raid0.1} \footnote{Bildzitat: http://de.wikipedia.org/wiki/Bild:RAID\_01.png (30.3.08)}) RAID-System stellt eine Kombination aus RAID0 und RAID1 da. Dementsprechend verbindet es beide Merkmale von RAID0 und RAID1. Es werden genau vier Festplatten benötigt.
+Zwei Festplatten werden im RAID0, zwei Festplatten im RAID1 geschaltet. Damit will man praktisch die Geschwindigkeit von RAID0 mit der Sicherheit von RAID1 kombinieren. Dieses RAID-System ist jedoch heute nicht mehr üblich und seltener verwendet.
+
+
+\chapter{Bandlaufwerke}
+Das heutige Problem ist, dass große Menge an Daten irgendwie für alle Notfälle gesichert werden müssen. Festplatten sind heute schon mit 1TB erhältlich und können dank RAID viel Speicherplatz bieten. Für eine langfristige Backuplösung ist das jedoch keine gute Wahl. Festplatten sind Mechanisch und können schnell defekt sein.
+
+Hierfür wurden Bandlaufwerke entwickelt. Es kann eine riesiege Menge an Daten gesichert werden. 
+Moderne Bandlaufwerke bieten bis zu einem vierstelligen GB Bereich an Kapazität. Dabei kostet solch eine Kartusche weniger als eine moderne 1TB Festplatte. Außerdem bietet ein Bandlaufwerk eine viel höhere Lebenszeit im Vergleich zu einer Festplatte.
+
+\chapter{Quellen}
+\begin{itemize}
+ \item wikipedia.org
+ \begin{itemize}
+  \item Harddisk
+  \item Perpendicular recording
+  \item Superparamagnetism
+ \end{itemize}
+\item pcworld.com
+\item hardwarezone.com
+\item hitachigst.com
+\item ibm.com
+\item quantum.com
+\end{itemize}
+
+
+
+\newpage
+
+
+\end{document}
+
